@@ -24,6 +24,8 @@
                 var newRow = document.createElement("tr");
                 // 日付列
                 var dateTd = document.createElement("td");
+                // 時間列
+                var timeTd = document.createElement("td");
                 // 内容列
                 var contentTd = document.createElement("td");
                 // 削除列
@@ -36,34 +38,40 @@
 
                 // TDの中身を設定
                 dateTd.innerText = document.getElementById("add_date").value;
+                timeTd.innerText = document.getElementById("add_time").value;                
                 contentTd.innerText = document.getElementById("add_text").value;
                 removeTd.appendChild(removeButton);
 
                 // TRへTDを追加
                 newRow.appendChild(dateTd);
+                newRow.appendChild(timeTd);
                 newRow.appendChild(contentTd);
                 newRow.appendChild(removeTd);
 
                 document.getElementById("table_body").appendChild(newRow)
+
             }
             window.onload = () => {
                 document.getElementById("add_button").onclick = addClick;
             }
         </script>
         <script src="https://kit.fontawesome.com/de7621063b.js" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
     </head>
     <body>
         <h1>スケジュールアプリ</h1>
         <div>
             <input type="date" id="add_date"/>
+            <input type="time" id="add_time"/>
             <input type="text" id="add_text"/>
-            <input type="button" id="add_button" value="add"/>
+            <input type="button" id="add_button" value="登録"/>
         </div>
 
         <table class="table">
             <thead>
                 <tr>
                     <th class="co1">日付 <i class="fa-regular fa-calendar"></i></th>
+                    <th class="co1">時間 <i class="fa-regular fa-clock"></i></th>
                     <th class="co1-8">内容 <i class="fa-regular fa-comment"></i></th>
                     <th class="co1">削除 <i class="fa-regular fa-trash-can"></i></th>
                 </tr>
