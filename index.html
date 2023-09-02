@@ -31,10 +31,15 @@
                 // 削除列
                 var removeTd = document.createElement("td");
                 // removeボタン
+                // var removeButton = document.createElement("input");
+                // removeButton.setAttribute("type", "button");
+                // removeButton.value = "remove";
+                // removeButton.onclick = removeClick;
                 var removeButton = document.createElement("input");
                 removeButton.setAttribute("type", "button");
-                removeButton.value = "remove";
+                var removeButton = document.getElementById("btn-xmark");
                 removeButton.onclick = removeClick;
+
 
                 // TDの中身を設定
                 dateTd.innerText = document.getElementById("add_date").value;
@@ -49,6 +54,11 @@
                 newRow.appendChild(removeTd);
 
                 document.getElementById("table_body").appendChild(newRow)
+                
+                // 登録後に入力フォームを空にする（途中）
+                function cleartext() {
+                    document.getElementById("add_text").value = "";
+                }
 
             }
             window.onload = () => {
@@ -80,5 +90,6 @@
 
             </tbody>
         </table>
+        <div hidden><button type="button" id="btn-xmark"><i class="fa-solid fa-xmark"></i></button></div>
     </body>
 </html>
