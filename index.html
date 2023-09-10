@@ -31,15 +31,11 @@
                 // 削除列
                 var removeTd = document.createElement("td");
                 // removeボタン
-                // var removeButton = document.createElement("input");
-                // removeButton.setAttribute("type", "button");
-                // removeButton.value = "remove";
-                // removeButton.onclick = removeClick;
-                var removeButton = document.createElement("input");
-                removeButton.setAttribute("type", "button");
-                var removeButton = document.getElementById("btn-xmark");
-                removeButton.onclick = removeClick;
 
+                var removeButton = document.createElement("button");
+                removeButton.setAttribute("type", "button");
+                removeButton.innerHTML = '<i class="fa-solid fa-xmark"></i>'; // ×アイコン
+                removeButton.onclick = removeClick;
 
                 // TDの中身を設定
                 dateTd.innerText = document.getElementById("add_date").value;
@@ -54,12 +50,12 @@
                 newRow.appendChild(removeTd);
 
                 document.getElementById("table_body").appendChild(newRow)
-                
-                // 登録後に入力フォームを空にする（途中）
-                function cleartext() {
-                    document.getElementById("add_text").value = "";
-                }
 
+                // フォームの値をクリア
+                document.getElementById("add_date").value = "";
+                document.getElementById("add_time").value = "";
+                document.getElementById("add_text").value = "";
+                
             }
             window.onload = () => {
                 document.getElementById("add_button").onclick = addClick;
@@ -74,7 +70,7 @@
             <input type="date" id="add_date"/>
             <input type="time" id="add_time"/>
             <input type="text" id="add_text"/>
-            <input type="button" id="add_button" value="登録"/>
+            <input type="button" id="add_button" value="登録" onclick="clearText()"/>
         </div>
 
         <table class="table">
@@ -90,6 +86,5 @@
 
             </tbody>
         </table>
-        <div hidden><button type="button" id="btn-xmark"><i class="fa-solid fa-xmark"></i></button></div>
     </body>
 </html>
