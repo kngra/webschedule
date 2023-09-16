@@ -31,10 +31,9 @@
                 // 削除列
                 var removeTd = document.createElement("td");
                 // removeボタン
-
                 var removeButton = document.createElement("button");
                 removeButton.setAttribute("type", "button");
-                removeButton.innerHTML = '<i class="fa-solid fa-xmark"></i>'; // ×アイコン
+                removeButton.className = "fa-solid fa-xmark"; // クラスを設定
                 removeButton.onclick = removeClick;
 
                 // TDの中身を設定
@@ -86,5 +85,10 @@
 
             </tbody>
         </table>
+        <div>
+            <!-- removeボタン -->
+            <button type="button" class="fa-solid fa-xmark" style="display: none;"></button>
+        </div>
+
     </body>
 </html>
