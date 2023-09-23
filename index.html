@@ -54,11 +54,47 @@
                 document.getElementById("add_date").value = "";
                 document.getElementById("add_time").value = "";
                 document.getElementById("add_text").value = "";
+
+                // 予定された日付と時間を取得
+                const scheduledDate = document.getElementById("add_date").value;
+                const scheduledTime = document.getElementById("add_time").value;
+
+                // 予定時間をDateオブジェクトに変換
+                const scheduledDateTime = new Date(`${scheduledDate}T${scheduledTime}`);
+
+                // 現在の日時を取得
+                const currentDateTime = new Date();
+
+                // 予定時間が現在の時間よりも後の場合にのみ通知をスケジュール
+                if (scheduledDateTime > currentDateTime) {
+                    // 通知をスケジュール
+                    setTimeout(() => {
+                    // 通知を作成
+                    const notification = new Notification("予定通知", {
+                        body: document.getElementById("add_text").value,
+                    });
+                        // 通知がクリックされたときの処理を追加
+                    notification.onclick = function () {
+                        window.focus(); // ページをフォーカス
+                        notification.close(); // 通知を閉じる
+                        // 通知をクリックした後の動作をここに追加
+                    };
+                    }, scheduledDateTime - currentDateTime);
+                }
                 
             }
             window.onload = () => {
                 document.getElementById("add_button").onclick = addClick;
             }
+
+            // ページが読み込まれたときに通知の許可をリクエスト
+            document.addEventListener("DOMContentLoaded", function () {
+                Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {
+                    console.log("通知が許可されました");
+                }
+                });
+            });
         </script>
         <script src="https://kit.fontawesome.com/de7621063b.js" crossorigin="anonymous"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
