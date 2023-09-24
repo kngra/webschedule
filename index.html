@@ -5,15 +5,34 @@
         <title>webスケジュール</title>
         <link href="./css/bootstrap.min.css" rel="stylesheet">
         <script src="./js/bootstrap.bundle.min.js"></script>
+
+
+
         <script>
-            // ページが読み込まれたときに通知の許可をリクエスト
-            document.addEventListener("DOMContentLoaded", function () {
-                Notification.requestPermission().then(function (permission) {
-                if (permission === "granted") {
-                    console.log("通知が許可されました");
-                }
+                // ユーザーから通知の許可を取得
+                function requestNotificationPermission() {
+            if ('Notification' in window) {
+                Notification.requestPermission()
+                .then(permission => {
+                    if (permission === 'granted') {
+                    console.log('通知の許可が得られました');
+                    } else if (permission === 'denied') {
+                    console.log('通知の許可が拒否されました');
+                    }
                 });
-            });            
+            }
+            }
+
+            // ページが読み込まれたときに通知の許可を取得
+            window.onload = () => {
+            document.getElementById("add_button").onclick = addClick;
+            requestNotificationPermission();
+            }
+        </script>
+
+
+
+        <script>         
             const removeClick = (event) => {
                 event.currentTarget.parentNode.parentNode.remove();
             }
@@ -63,32 +82,38 @@
                 document.getElementById("add_time").value = "";
                 document.getElementById("add_text").value = "";
 
-                // 予定された日付と時間を取得
-                const scheduledDate = document.getElementById("add_date").value;
-                const scheduledTime = document.getElementById("add_time").value;
 
-                // 予定時間をDateオブジェクトに変換
-                const scheduledDateTime = new Date(`${scheduledDate}T${scheduledTime}`);
 
-                // 現在の日時を取得
-                const currentDateTime = new Date();
 
-                // 予定時間が現在の時間よりも後の場合にのみ通知をスケジュール
-                if (scheduledDateTime > currentDateTime) {
-                    // 通知をスケジュール
-                    setTimeout(() => {
-                    // 通知を作成
-                    const notification = new Notification("予定通知", {
-                        body: document.getElementById("add_text").value,
-                    });
-                        // 通知がクリックされたときの処理を追加
-                    notification.onclick = function () {
-                        window.focus(); // ページをフォーカス
-                        notification.close(); // 通知を閉じる
-                        // 通知をクリックした後の動作をここに追加
-                    };
-                    }, scheduledDateTime - currentDateTime);
+
+                // 通知を送信するための時間を取得
+                const notificationTime = new Date(
+                    document.getElementById("add_date").value + "T" + document.getElementById("add_time").value
+                );
+                
+                // 現在の時間との差を計算して、タイムアウトを設定
+                const timeUntilNotification = notificationTime - new Date();
+                if (timeUntilNotification <= 0) {
+                    alert("過去の時間に通知を設定することはできません");
+                    return;
                 }
+                setTimeout(() => {
+                // 通知を作成
+                if ('Notification' in window && Notification.permission === 'granted') {
+                const notification = new Notification("スケジュール通知", {
+                    body: document.getElementById("add_text").value,
+                    icon: 'アイコンのURLを指定することもできます'
+                });
+                
+                // 通知がクリックされたときの挙動を設定
+                notification.onclick = () => {
+                    // 通知がクリックされたときの処理をここに追加
+                };
+                }
+                }, timeUntilNotification);
+
+
+
                 
             }
             window.onload = () => {
