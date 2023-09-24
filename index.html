@@ -7,7 +7,23 @@
         <script src="./js/bootstrap.bundle.min.js"></script>
 
 
+        <script>
+        // ユーザーから通知の許可を取得
+        function requestNotificationPermission() {
+        if ('Notification' in window) {
+            Notification.requestPermission()
+            .then(permission => {
+                if (permission === 'granted') {
+                console.log('通知の許可が得られました');
+                } else if (permission === 'denied') {
+                console.log('通知の許可が拒否されました');
+                }
+            });
+        }
+        }
+        </script>
 
+        
 
         <script>         
             const removeClick = (event) => {
@@ -62,20 +78,6 @@
 
 
 
-
-                // ユーザーから通知の許可を取得
-                function requestNotificationPermission() {
-                if ('Notification' in window) {
-                    Notification.requestPermission()
-                    .then(permission => {
-                        if (permission === 'granted') {
-                        console.log('通知の許可が得られました');
-                        } else if (permission === 'denied') {
-                        console.log('通知の許可が拒否されました');
-                        }
-                    });
-                }
-                }
 
                 // ページが読み込まれたときに通知の許可を取得
                 window.onload = () => {
