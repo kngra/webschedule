@@ -6,7 +6,12 @@
         <link href="./css/bootstrap.min.css" rel="stylesheet">
         <script src="./js/bootstrap.bundle.min.js"></script>
 
+
+
+
         <script> 
+
+
         function requestNotificationPermission() {
             if ('Notification' in window) {
                 Notification.requestPermission()
@@ -21,6 +26,8 @@
             }
         }
 
+
+        
 
 
             const removeClick = (event) => {
@@ -67,39 +74,45 @@
 
                 document.getElementById("table_body").appendChild(newRow)
 
-                // フォームの値をクリア
-                document.getElementById("add_date").value = "";
-                document.getElementById("add_time").value = "";
-                document.getElementById("add_text").value = "";
-
-
 
                 // 通知のスケジュールを設定
                 const date = new Date(document.getElementById("add_date").value + "T" + document.getElementById("add_time").value + ":00");
                 if (date > new Date()) {
                     scheduleNotification(date, document.getElementById("add_text").value);
                 }
+
+                // フォームの値をクリア
+                document.getElementById("add_date").value = "";
+                document.getElementById("add_time").value = "";
+                document.getElementById("add_text").value = "";
+
+
             }
 
             function scheduleNotification(notificationDate, notificationText) {
                 if ('Notification' in window) {
                     if (Notification.permission === 'granted') {
-                        const options = {
-                            body: notificationText,
-                            icon: 'icons/bell-regular.png', // 通知アイコンのパス
-                        };
-                        const notification = new Notification('スケジュール通知', options);
+                        const currentDate = new Date();
+                        if (notificationDate > currentDate) {
+                            const timeUntilNotification = notificationDate - currentDate;
+                            setTimeout(function() {
+                                const options = {
+                                    body: notificationText,
+                                    icon: 'icons/bell-regular.png', // 通知アイコンのパス
+                                };
+                                const notification = new Notification('スケジュール通知', options);
 
-                        // 通知をクリックしたときの処理を追加することもできます
-                        notification.onclick = function () {
-                            // 通知がクリックされたときの処理をここに追加
-                        };
+                                // 通知をクリックしたときの処理を追加することもできます
+                                notification.onclick = function () {
+                                    // 通知がクリックされたときの処理をここに追加
+                                };
+                            }, timeUntilNotification);
+                        }
                     }
                 }
-            
-
-
             }
+
+
             window.onload = () => {
                 document.getElementById("add_button").onclick = addClick;
             }
