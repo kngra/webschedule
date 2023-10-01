@@ -7,25 +7,29 @@
         <script src="./js/bootstrap.bundle.min.js"></script>
 
 
-        <script>
-        // ユーザーから通知の許可を取得
+
+
+        <script> 
+
+
         function requestNotificationPermission() {
-        if ('Notification' in window) {
-            Notification.requestPermission()
-            .then(permission => {
-                if (permission === 'granted') {
-                console.log('通知の許可が得られました');
-                } else if (permission === 'denied') {
-                console.log('通知の許可が拒否されました');
-                }
-            });
+            if ('Notification' in window) {
+                Notification.requestPermission()
+                    .then(function (permission) {
+                        if (permission === 'granted') {
+                            console.log('通知が許可されました！');
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error('通知の許可リクエスト中にエラーが発生しました: ', error);
+                    });
+            }
         }
-        }
-        </script>
+
 
         
 
-        <script>         
+
             const removeClick = (event) => {
                 event.currentTarget.parentNode.parentNode.remove();
             }
@@ -79,38 +83,36 @@
 
 
 
-                // ページが読み込まれたときに通知の許可を取得
-                window.onload = () => {
-                document.getElementById("add_button").onclick = addClick;
-                requestNotificationPermission();
-                }
 
 
-                // 通知を送信するための時間を取得
-                const notificationTime = new Date(
-                    document.getElementById("add_date").value + "T" + document.getElementById("add_time").value
-                );
-                
-                // 現在の時間との差を計算して、タイムアウトを設定
-                const timeUntilNotification = notificationTime - new Date();
-                if (timeUntilNotification <= 0) {
-                    alert("過去の時間に通知を設定することはできません");
-                    return;
+                // 通知のスケジュールを設定
+                const date = new Date(document.getElementById("add_date").value + "T" + document.getElementById("add_time").value + ":00");
+                if (date > new Date()) {
+                    scheduleNotification(date, document.getElementById("add_text").value);
                 }
-                setTimeout(() => {
-                // 通知を作成
-                if ('Notification' in window && Notification.permission === 'granted') {
-                const notification = new Notification("スケジュール通知", {
-                    body: document.getElementById("add_text").value,
-                    // icon: 'アイコンのURLを指定することもできます'
-                });
-                
-                // 通知がクリックされたときの挙動を設定
-                notification.onclick = () => {
-                    // 通知がクリックされたときの処理をここに追加
-                };
+            }
+
+            function scheduleNotification(notificationDate, notificationText) {
+                if ('Notification' in window) {
+                    if (Notification.permission === 'granted') {
+                        const options = {
+                            body: notificationText,
+                            icon: 'icons/bell-regular.png', // 通知アイコンのパス
+                        };
+                        const notification = new Notification('スケジュール通知', options);
+
+                        // 通知をクリックしたときの処理を追加することもできます
+                        notification.onclick = function () {
+                            // 通知がクリックされたときの処理をここに追加
+                        };
+                    }
                 }
-                }, timeUntilNotification);
+            
+
+
+
+
+
 
 
 
