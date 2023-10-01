@@ -6,12 +6,7 @@
         <link href="./css/bootstrap.min.css" rel="stylesheet">
         <script src="./js/bootstrap.bundle.min.js"></script>
 
-
-
-
         <script> 
-
-
         function requestNotificationPermission() {
             if ('Notification' in window) {
                 Notification.requestPermission()
@@ -26,8 +21,6 @@
             }
         }
 
-
-        
 
 
             const removeClick = (event) => {
@@ -81,10 +74,6 @@
 
 
 
-
-
-
-
                 // 通知のスケジュールを設定
                 const date = new Date(document.getElementById("add_date").value + "T" + document.getElementById("add_time").value + ":00");
                 if (date > new Date()) {
@@ -110,13 +99,6 @@
             
 
 
-
-
-
-
-
-
-                
             }
             window.onload = () => {
                 document.getElementById("add_button").onclick = addClick;
