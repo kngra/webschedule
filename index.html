@@ -32,6 +32,7 @@
 
             const removeClick = (event) => {
                 event.currentTarget.parentNode.parentNode.remove();
+
             }
                 
             const addClick = () => {
@@ -80,6 +81,24 @@
                 if (date > new Date()) {
                     scheduleNotification(date, document.getElementById("add_text").value);
                 }
+
+                // 予定の登録
+                const add_date = document.querySelector("#add_date");
+                const add_time = document.querySelector("#add_time");
+                const add_text = document.querySelector("#add_text");
+                const add_button = document.querySelector("#add_button");
+
+                // 新しい予定のデータをオブジェクトにまとめる
+                const scheduleKey = {
+                    date: add_date.value,
+                    time: add_time.value,
+                    text: add_text.value,
+                };
+
+                // ローカルストレージにデータを保存
+                localStorage.setItem('scheduleKey' , JSON.stringify(scheduleKey));
+
+
 
                 // フォームの値をクリア
                 document.getElementById("add_date").value = "";
